@@ -1,22 +1,11 @@
 #include <string>
 #include <vector>
-#include <iostream>
 #include <algorithm>
 #include <set>
-#include <queue>
 #include <map>
 
 using namespace std;
 
-bool check_visited(string str, vector<string> visited)
-{
-    for (int i = 0; i < visited.size(); i++)
-    {
-        if (str.compare(visited[i]) == 0) // 이미 방문했다.
-            return false;
-    }
-    return true;
-}
 
 int gems_type_vec(vector<string> gems)
 {
