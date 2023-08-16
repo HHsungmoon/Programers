@@ -1,7 +1,6 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
-#include <set>
 
 using namespace std;
 
@@ -18,7 +17,6 @@ int main()
 	{
 		cin >> arr[i];
 	}
-	set<int> Good_arr;
 
 	sort(arr.begin(), arr.end());
 
