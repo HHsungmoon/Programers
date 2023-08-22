@@ -8,6 +8,9 @@ using namespace std;
 int N, M;
 int answer = 0;
 
+int dx[4] = { -1,1,0,0};
+int dy[4] = { 0,0,-1,1 };
+
 vector<vector<int>> melt_ice(vector<vector<int>> vec)
 {
 	for (int y = 0; y < N; y++)
@@ -17,10 +20,12 @@ vector<vector<int>> melt_ice(vector<vector<int>> vec)
 			if (vec[y][x] != 0)
 			{
 				int sea = 0;
-				if (vec[y - 1][x] == 0) { sea += 1; }
-				if (vec[y + 1][x] == 0) { sea += 1; }
-				if (vec[y][x - 1] == 0) { sea += 1; }
-				if (vec[y][x + 1] == 0) { sea += 1; }
+				for (int i = 0; i < 4; i++)
+				{
+					if (vec[y + dy[i]][x + dx[i]] == 0)
+						sea += 1;
+				}
+
 				vec[y][x] -= sea;
 				if (vec[y][x] <= 0)
 					vec[y][x] = -1;
@@ -51,6 +56,7 @@ int DFS(vector<vector<int>> vec)
 			{
 				if (cnt == 0)
 				{
+					// stack 구현방식 백준 2573
 					stack<pair<int, int>> st;
 					st.push(make_pair(px, py));
 					while (st.empty() == false)
@@ -59,28 +65,14 @@ int DFS(vector<vector<int>> vec)
 						int y = st.top().second;
 						st.pop();
 
-						if (vec[y - 1][x] != 0 && visited[y - 1][x] == 0)
+						for (int i = 0; i < 4; i++)
 						{
-							st.push(make_pair(x, y - 1));
-							visited[y - 1][x] = 1;
-						}
-						if (vec[y + 1][x] != 0 && visited[y + 1][x] == 0)
-						{
-							st.push(make_pair(x, y + 1));
-							visited[y +1][x] = 1;
-						}
-							
-						if (vec[y][x - 1] != 0 && visited[y][x - 1] == 0)
-						{
-							st.push(make_pair(x - 1, y));
-							visited[y ][x-1] = 1;
-						}
-						if (vec[y][x + 1] != 0 && visited[y][x + 1] == 0)
-						{
-							st.push(make_pair(x + 1, y));
-							visited[y][x+1] = 1;
-						}
-							
+							if (vec[y + dy[i]][x + dx[i]] != 0 && visited[y + dy[i]][x + dx[i]] == 0)
+							{
+								st.push(make_pair(x + dx[i], y + dy[i]));
+								visited[y + dy[i]][x + dx[i]] = 1;
+							}
+						}	
 					}
 					cnt += 1;
 				}
@@ -111,7 +103,6 @@ int main()
 		}
 	}
 
-	
 	while (1)
 	{
 		int dfs = DFS(vec);
