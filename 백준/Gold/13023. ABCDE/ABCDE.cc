@@ -19,7 +19,7 @@ void DFS(int idx, int len)
 	}
 
 	visited[idx] = true;
-	for (int i = 0; i < int(vec[idx].size()); i++)
+	for (int i = 0; i < vec[idx].size(); i++)
 	{
 		int n_idx = vec[idx][i];
 		if (visited[n_idx] == false)
