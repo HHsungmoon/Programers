@@ -5,15 +5,13 @@
 
 using namespace std;
 
-
 int N, L, R;
 
 vector<vector<int>> vec;
+vector<vector<int>> visited;
 
 int dx[4] = { -1,1,0,0 };
 int dy[4] = { 0,0,-1,1 };
-
-vector<vector<int>> visited;
 
 bool BFS(int sx, int sy)
 {
@@ -36,9 +34,6 @@ bool BFS(int sx, int sy)
 		{
 			int nx = px + dx[i];
 			int ny = py + dy[i];
-
-			
-			
 
 			if (nx >= 0 && ny >= 0 && nx < N && ny < N && visited[ny][nx] == 0)
 			{
