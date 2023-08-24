@@ -6,7 +6,6 @@
 using namespace std;
 
 int Y, X;
-
 int** Map_arr;
 
 int dx[4] = { -1,1,0,0 };
@@ -56,6 +55,10 @@ int BFS(int sx, int sy)
 
 int main()
 {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+
 	cin >> Y >> X;
 	Map_arr = new int* [Y];
 	for (int y = 0; y < Y; y++)
