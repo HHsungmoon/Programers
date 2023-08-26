@@ -41,7 +41,6 @@ bool BFS(int sx, int sy)
 	while (que.empty() == false)
 	{
 		int que_size = que.size();
-		bool eat = false;
 		for (int q = 0; q < que_size; q++)
 		{
 			Data tmp = que.front();
