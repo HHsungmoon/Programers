@@ -88,10 +88,7 @@ int main()
 		cin >> tmp;
 		for (int t = 0; t < 8; t++)
 		{
-			if (tmp[t] == '0')
-				vec[i][t] = 0;
-			else if (tmp[t] == '1')
-				vec[i][t] = 1;
+			vec[i][t] = tmp[t] - '0';
 		}
 	}
 
