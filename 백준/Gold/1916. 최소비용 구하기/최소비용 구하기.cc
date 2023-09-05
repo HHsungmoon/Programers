@@ -6,53 +6,55 @@ using namespace std;
 
 #define Max_num 100000001
 
-int N, Bus_num;
-
 typedef struct
 {
-	int sx;
-	int ay;
+	int from;
+	int to;
 	int len;
 }Node;
 
-vector<Node> vec;
+int N, M;
 int Start, End;
+vector<Node> vec;
+priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > pq; // first가 길이, second가 다음노드
+//priority_queue<pair<int, int>> pq;
 
-
-int Dijecstra_Algorithm()
+int Dijecstra()
 {
-	vector<int> visited(N+1,0);
-	vector<int> dijecstra(N+1, Max_num);
+	vector<int> visited(N + 1, 0);
+	vector<int> Dij(N + 1, Max_num);
 
-	visited[Start] = 1;
-	dijecstra[Start] = 0;
-	pair<int, int> tmp = make_pair(Start, 0);
-	while (visited[End] == 0)
+	Dij[Start] = 0;
+	pq.push(make_pair(0, Start));
+
+	while (pq.empty() == false)
 	{
-		for (int i = 0; i < vec.size(); i++)
+		int node = pq.top().second;
+		int length = pq.top().first;
+		pq.pop();
+
+		if (visited[node] != 1)
 		{
-			if (vec[i].sx == tmp.first && visited[vec[i].ay] == 0)
+			visited[node] = 1;
+			
+			for (int i = 0; i < vec.size(); i++)
 			{
-				dijecstra[vec[i].ay] = min(dijecstra[vec[i].ay], tmp.second + vec[i].len);
-			}
-		}
-		int idx=0; int min_len = Max_num;
-		for (int i = 1; i < dijecstra.size(); i++)
-		{
-			if (visited[i] == 0)
-			{
-				if (min_len > dijecstra[i])
+				if (vec[i].from == node && visited[vec[i].to] == 0)
 				{
-					idx = i;
-					min_len = dijecstra[i];
+					//Dij[vec[i].to] = min(Dij[vec[i].to], length + vec[i].len);
+					// Dij의 값이 최소로 업데이트 되는 상황에서만 pq에 넣는다
+					if (Dij[vec[i].to] > length + vec[i].len)
+					{
+						Dij[vec[i].to] = length + vec[i].len;
+						pq.push(make_pair(Dij[vec[i].to], vec[i].to));
+					}
 				}
 			}
+			if (visited[End] == 1)
+				return Dij[End];
 		}
-		tmp = make_pair(idx, min_len);
-		visited[idx] = 1;
 	}
-
-	return dijecstra[End];
+	return Dij[End];
 }
 
 
@@ -62,17 +64,15 @@ int main()
 	cin.tie(NULL);
 	cout.tie(NULL);
 
-	cin >> N >> Bus_num;
-	for (int i = 0; i < Bus_num; i++)
+	cin >> N >> M;
+	vec.resize(M);
+	for (int i = 0; i < M; i++)
 	{
-		Node tmp;
-		cin >> tmp.sx >> tmp.ay >> tmp.len;
-		vec.push_back(tmp);
+		cin >> vec[i].from >> vec[i].to >> vec[i].len;
 	}
 	cin >> Start >> End;
 
-	int ans = Dijecstra_Algorithm();
-	cout << ans;
+	cout << Dijecstra();
 
 	return 0;
 }
