@@ -9,6 +9,9 @@ using namespace std;
 vector<vector<pair<int, int>>> vec;  // 순서: 길이, to노드
 int N, K;
 
+int num;
+
+
 void make_vec()
 {
 	vec[0].push_back(make_pair(1, 1));
@@ -38,8 +41,8 @@ int Dijecstra()
 		int tmp = pq.top().second;
 		int len = pq.top().first;
 		pq.pop();
-
-		if (visited[tmp] == 0)
+		
+		if (visited[tmp] == 0 && tmp < K+num+2)
 		{
 			visited[tmp] = 1;
 
@@ -72,6 +75,10 @@ int main()
 	vec.resize(100001);
 
 	make_vec();
+	if (K > N)
+		num = K - N;
+	else
+		num = N - K;
 
 	cout << Dijecstra();
 
