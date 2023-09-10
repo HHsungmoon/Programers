@@ -54,6 +54,10 @@ int Floyd_warshall(vector<vector<int>> vec)
 
 int main()
 {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
 	cin >> N >> M;
 
 	vector<vector<int>> vec(N+1,vector<int>(N+1,0));
