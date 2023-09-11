@@ -29,6 +29,10 @@ int Floyd_Warshall()
 
 int main()
 {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
 	cin >> V >> E;
 	vec.resize(V + 1);
 	for (int v = 0; v < V + 1; v++)
