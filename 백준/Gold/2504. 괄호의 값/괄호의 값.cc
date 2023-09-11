@@ -10,105 +10,72 @@ int main()
 	string str;
 	cin >> str;
 
-	vector<int> vec;
-	vec.push_back(-1);
-	
-	int ans = 0; 
+	stack<char> stack;
+	int tmp = 1; bool tf = false;
+	int ans = 0;
 
-	for (int i = 0; i < str.length(); i++)
+	for (int t = 0; t < str.length(); t++)
 	{
-		int idx = vec.size()-1;
-		char c = str[i];
-		if (c == '(' || c == '[')
+		char c = str[t];
+		if (c == '(')
 		{
-			if (vec[idx] == -2 || vec[idx] == -3)
-				vec.push_back(-5);
-			else
-				vec.push_back(-4);
-
-			if (c == '(')
-				vec.push_back(-2);
-			else
-				vec.push_back(-3);
+			stack.push(c);
+			tmp *= 2;
+			tf = true;
 		}
-		else if (c == ')' || c == ']')
+		else if (c == '[')
 		{
-			if (vec[idx] == -2 && c == ')')
+			stack.push(c);
+			tmp *= 3;
+			tf = true;
+		}
+		else if (c == ')')
+		{
+			if (stack.empty()==true || stack.top() == '[')
 			{
-				vec.pop_back();
-				vec.push_back(2);
+				cout << 0;
+				return 0;
 			}
-			else if (vec[idx] == -3 && c == ']')
+
+			if (tf == true)
 			{
-				vec.pop_back();
-				vec.push_back(3);
+				ans += tmp;
+				tf = false;
 			}
-			else 
+
+			if (stack.top() == '(')
 			{
-				int tmp = idx;
-				while (1)
-				{
-					tmp--;
-					if (tmp <= 0)
-					{
-						cout << 0;
-						return 0;
-					}
-					if (vec[tmp] == -3 || vec[tmp] == -2)
-						break;
-				}
-
-				if (vec[tmp] == -2 && c == ']' || vec[idx] == -3 && c == ')')
-				{
-					cout << 0;
-					return 0;
-				}
-
-				if (vec[tmp] == -2 && c == ')')
-				{
-					vec[tmp] = 2;
-				}
-				else if (vec[tmp] == -3 && c == ']')
-				{
-					vec[tmp] = 3;
-				}
-
-				int tmp_ans =vec[idx]; int num = 0;
-				vec.pop_back(); idx--;
-				while (idx >= tmp)
-				{
-					if (vec[idx] == -4)
-					{
-						tmp_ans += vec[idx - 1];
-						idx -= 2;
-						vec.pop_back();
-						vec.pop_back();
-					}
-					else
-					{
-						tmp_ans *= vec[idx - 1];
-						idx -= 2;
-						vec.pop_back();
-						vec.pop_back();
-					}
-				}
-				vec.push_back(tmp_ans);
+				tmp = tmp / 2;
+				stack.pop();
 			}
+		}
+		else if (c == ']')
+		{
+			if (stack.empty() == true || stack.top() == '(')
+			{
+				cout << 0;
+				return 0;
+			}
+
+			if (tf == true)
+			{
+				ans += tmp;
+				tf = false;
+			}
+
+			if (stack.top() == '[')
+			{
+				tmp = tmp / 3;
+				stack.pop();
+			}
+			
 		}
 	}
 
-	for (int i = 0; i < vec.size(); i++)
-	{
-		if (vec[i] > 0)
-		{
-			ans += vec[i];
-		}
-		else if (vec[i] == -2 || vec[i] == -3)
-		{
-			ans = 0;
-			break;
-		}
-	}
-	cout << ans;
+	if (stack.empty() == false)
+		cout << 0;
+	else
+		cout << ans;
+
 	return 0;
 }
