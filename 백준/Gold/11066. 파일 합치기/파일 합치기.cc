@@ -37,6 +37,10 @@ int REQ(int st, int end)
 
 int main()
 {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
 	cin >> T;
 
 	answer.resize(T);
