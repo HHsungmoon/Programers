@@ -1,46 +1,55 @@
 import java.util.*;
 
+class Pair{
+    public long num, cnt;
+    
+    public Pair(long num, long cnt){
+        this.num = num;
+        this.cnt = cnt;
+    }
+}
+
 class Solution {
     public long solution(int[] weights) {
-        long result = 0;
-
-        // 몸무게의 빈도수를 저장할 Map
-        Map<Integer, Long> weightCount = new HashMap<>();
-
-        // 몸무게 빈도 계산
-        for (int weight : weights) {
-            weightCount.put(weight, weightCount.getOrDefault(weight, 0L) + 1);
+        long answer = 0;
+        
+        int[] warr = new int[1001];
+        for(int num : weights){
+            warr[num] += 1;
         }
-
-        // 가능한 거리 비율
-        int[][] ratios = {{2, 2}, {2, 3}, {2, 4}, {3, 2}, {3, 4}, {4, 2}, {4, 3}, {4, 4}};
-
-        // 몸무게 조합 탐색
-        for (int weight : weightCount.keySet()) {
-            long count = weightCount.get(weight);
-
-            // 같은 몸무게끼리 짝꿍이 되는 경우
-            if (count > 1) {
-                result += count * (count - 1) / 2; // 조합 계산: nC2 = n * (n - 1) / 2
+        ArrayList<Pair> data = new ArrayList<>();
+        for(int i=100; i<=1000; i++){
+            if(warr[i] > 0){
+                data.add(new Pair(i,warr[i]));
             }
-
-            // 다른 몸무게와의 조합 확인
-            for (int[] ratio : ratios) {
-                int num = ratio[0];
-                int denom = ratio[1];
-
-                // 다른 몸무게 계산
-                if (weight * num % denom == 0) {
-                    int pairedWeight = weight * num / denom;
-
-                    // 짝꿍이 존재한다면 결과에 추가
-                    if (weightCount.containsKey(pairedWeight) && pairedWeight > weight) {
-                        result += count * weightCount.get(pairedWeight);
-                    }
+        }
+        
+        //case = 
+        for(Pair tmp : data){
+            if(tmp.cnt >= 2){
+                answer += tmp.cnt*(tmp.cnt-1)/2;
+            }
+        }
+        
+        //case x3, x2
+        //case x2, x1
+        //case x4, x3
+        for(int i=0; i<data.size()-1; i++){
+            for(int t=i+1; t<data.size(); t++){
+                if(data.get(i).num * 3 == data.get(t).num *2){
+                    answer += data.get(i).cnt*data.get(t).cnt;
+                }
+                if(data.get(i).num * 2 == data.get(t).num){
+                    answer += data.get(i).cnt*data.get(t).cnt;
+                }
+                if(data.get(i).num * 4 == data.get(t).num*3){
+                    answer += data.get(i).cnt*data.get(t).cnt;
                 }
             }
         }
-
-        return result;
+        
+        
+    
+        return answer;
     }
 }
