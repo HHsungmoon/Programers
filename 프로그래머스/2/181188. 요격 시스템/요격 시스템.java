@@ -20,7 +20,7 @@ class Solution {
             for(int i = idx+1; i < idx+cnt; i++){
                 if(targets[i][0] < ed){
                     // 같이 kill
-                    ed = Math.min(targets[i][1], min_ed);
+                    //ed = Math.min(targets[i][1], min_ed);
                     kill_point += 1;
                 }else{
                     break;
