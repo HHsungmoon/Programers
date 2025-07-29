@@ -17,14 +17,12 @@ class Solution {
             }
         }
         
-        for(int i=0; i<dp.length; i++)
+
+        for(int t=0; t<dp[dp.length-1].length; t++)
         {
-            for(int t=0; t<dp[i].length; t++)
-            {
-                answer = Math.max(answer, dp[i][t]);
-            }
-           
+            answer = Math.max(answer, dp[dp.length-1][t]);
         }
+        
         
         return answer;
     }
